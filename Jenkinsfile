@@ -1,7 +1,7 @@
 pipeline{
     agent any
     tools {
-      maven 'maven3'
+      maven 'mymaven'
     }
     environment {
       DOCKER_TAG = getVersion()
@@ -22,17 +22,17 @@ pipeline{
         
         stage('Docker Build'){
             steps{
-                sh "docker build . -t nalapatt/hariapp:${DOCKER_TAG} "
+                sh "docker build . -t nalapatt123/hariapp:${DOCKER_TAG} "
             }
         }
         
         stage('DockerHub Push'){
             steps{
                 withCredentials([string(credentialsId: 'docker-hub', variable: 'dockerHubPwd')]) {
-                    sh "docker login -u nalapatt -p ${dockerHubPwd}"
+                    sh "docker login -u nalapatt123 -p ${dockerHubPwd}"
                 }
                 
-                sh "docker push nalapatt/hariapp:${DOCKER_TAG} "
+                sh "docker push nalapatt123/hariapp:${DOCKER_TAG} "
             }
         }
         
