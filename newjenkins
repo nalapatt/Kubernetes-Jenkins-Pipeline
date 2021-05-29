@@ -1,0 +1,9 @@
+stage('Run containers on Dev servers') {
+            steps{    
+                def dockerRun = 'docker run -p 8080:8080 -d -name my-app nalapatt123/my-app:2.0'
+                  sshagent(['dev-slave']) {
+                     sh 'ssh -o StrictHostKeyChecking=no ubuntu@172.31.22.243 ${dockerRun}'
+                }
+             
+            }
+        }
