@@ -10,10 +10,4 @@
       pip:
         name: docker-py
         state: present
-    - name: Start the container
-      docker_container:
-        name: hariapp
-        image: "nalapatt123/hariapp:2.0"
-        state: started
-        published_ports:
-          - 0.0.0.0:8080:8080
+   
