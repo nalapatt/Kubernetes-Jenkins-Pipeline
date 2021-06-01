@@ -22,7 +22,10 @@ pipeline{
         
         stage('Docker Build'){
             steps{
-                sh "docker build . -t nalapatt123/hariapp:${DOCKER_TAG} "
+                sshagent(['tomcat-ssh']) {
+                     sh "docker build . -t nalapatt123/hariapp:${DOCKER_TAG} "
+                     sh "scp -o StrictHostKeyChecking=no target/dockeransible.war tomcat@172.31.17.213:/home/tomcat/tomcat/webapps/dockeransible.war"
+                }
             }
         }
         
@@ -38,8 +41,9 @@ pipeline{
      
         stage('Docker Deploy'){
             steps{
-                sshagent(['dev_server']) {
-                     sh 'ssh -o StrictHostKeyChecking=no deploy@172.31.26.33 "docker run -p 8080:8080 -d --name my-app nalapatt123/hariapp:${DOCKER_TAG}"'
+                sshagent(['dev-slave']) {
+                     sh 'ssh -o StrictHostKeyChecking=no deploy@172.31.17.213 "docker stop my-app && docker rm --force my-app"'
+                     sh 'ssh -o StrictHostKeyChecking=no deploy@172.31.17.213 "docker run -p 8080:8090 -d --name my-app nalapatt123/hariapp:${DOCKER_TAG}"'
                 }
                   }
         }
