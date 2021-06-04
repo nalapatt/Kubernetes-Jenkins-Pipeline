@@ -1,14 +1,21 @@
-# steps that were involved 
+The objective is to implement the automation of the build and release process for their product
+# The Problems faced
+In this project a ticket booking company is facing problems due to using a waterfall method An entertainment company like BookMyShow where users book their tickets have multiple users accessing their web app. Due to less infrastructure availability, they use less machines and provide the required structure. This method includes many weaknesses such as:
+Developers must wait till the complete software development for the test results. There is a huge possibility of bugs in the test results. Delivery process of the software is slow. The quality of software is a concern due to continuous feedback referring to things like coding or architectural issues, build failures, test conditions, and file release uploads.
+# The solution
+The objective is to implement the automation of the build and release process for their product. This was achieved by
+Setting up the Jenkins server in master or slave architecture Using the Jenkins plugins to perform the computation part on the Docker containers Creating Jenkins pipeline script Using the GIT web hook to schedule the job on check-in or poll SCM Building an image using the artifacts and deploy them on containers Removing the container stack after completing the job
+# steps involved in completing the project
+- creating an ansible controller instance which runs an ansible-playbook to deploy a kubernetes cluster with one master and 2 nodes
+- run the playbook to configure the master and nodes,this cluster has a master and 2 nodes
+the master has jenkins installed on it,
+- configure jenkins pipeline with docker and maven to build an image and deploy it to docker hub
+- the pipeline creates a container from this image and deploys that to the tomcat server on the worker node
+- every time there is a github commit a new image is build and new container is deployed
+- after everything is done the container image and the containers should be destroyed
 
-# creating an ansible controller instance which runs an ansible-playbook to deploy a kubernetes cluster with one master and 1 node
-# run the playbook to configure the master and nodes
-# this cluster has a master and 2 nodes
-# the master has jenkins installed on it,
-# jenkins user docker and maven to  build an image and deploys it to docker hub
-# the pipeline also creates a container from this image and deploys that to the tomcat server and the worker node
-# every time there is a github commit a new image is build and new container is deployed 
-# after everything is done the container image and the containers should be destroyed
 
+# First step create instances configure it, run an ansible-playbook to create a kubernetes cluster
 
 set up ec2 amazon linux instances
 # controller
@@ -217,6 +224,7 @@ should show all the nodes
 
 # # YEAH YOU HAVE DONE creating the kubernetes cluster
 
+# Second Step Configure the master and node for the jenkins pipeline
 # now install jdk and jenkins
 # jdk
 sudo yum update
@@ -340,6 +348,7 @@ go to the tomcat UI manager app should show a sign in
 yeah done
 
 
+# Create a pipeline job to run the pipeline script to deploy images and containers
 # add credentials for github https://github.com/nalapatt/dockeransiblejenkins.git
 add credentials
 username with password
@@ -399,7 +408,7 @@ Poll SCM ( H/5* * * * )every 5 mins for new commit
 Build now
 
 If all the stages are done then success
-
+# check to see if the html page is shown here
 check public ip:8090/dockeransible
 
 should show the index.html
