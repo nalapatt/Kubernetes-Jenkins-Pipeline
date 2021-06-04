@@ -135,25 +135,25 @@ sudo vi /etc/ansible/hosts
 add hosts
 # check if you can ssh to the host file of /etc/ansible/hosts 
 [master]
-172.31.30.227 ansible_pass=master123 ansible_user=master
+172.31.30.227 ansible_pass=ansible123 ansible_user=master
 
 [worker]
-172.31.19.177 ansible_pass=worker123 ansible_user=worker
+172.31.19.177 ansible_pass=ansible123 ansible_user=worker
 
-# git clone
+# git clone the ansible playbook directory
 sudo yum install git 
 git init
-git clone https://github.com/nalapatt/ansible-k8s-setup.git
+git clone https://github.com/nalapatt/ansible-playbook-k8s-setup.git
 
 
 cd ansible-k8s-setup
 vi hosts
 - change the hosts
 - [master]
-172.31.30.227 ansible_pass=master123 ansible_user=master
+172.31.30.227 ansible_pass=ansible123 ansible_user=master
 
 [worker]
-172.31.19.177 ansible_pass=worker123 ansible_user=worker
+172.31.19.177 ansible_pass=ansible123 ansible_user=worker
 ~                           
 pwd
 vi ansible.cfg
@@ -178,7 +178,7 @@ vi k8s-pkg.yml
 remove the firewall disable
 remove the disable se linux
 ansible-playbook k8s-pkg.yml --syntax-check
-ansible-playbook k8s-pkg.yml  --extra-vars "ansible_sudo_pass=ansible123" ( set all three passwords to this)
+ansible-playbook k8s-pkg.yml  --extra-vars "ansible_sudo_pass=ansible123" ( set all three passwords to this to make life easier if it works then change it )
 if done YEAH!!!
 
 # go into the respective terminals and in root
@@ -189,7 +189,7 @@ sudo usermod -aG docker worker
 # change yaml files 
 vi k8s-master.yml
 edit masters to master
-change to your ip address of your master in apiserver-address=ipaddressof master
+change to your ip address of your master in apiserver-address=private ipaddressof master
 ansible-playbook k8s-master.yml --syntax-check
 check the syntax if alright
 then
