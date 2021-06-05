@@ -42,10 +42,28 @@ pipeline{
         stage('Docker Deploy'){
             steps{
                 sshagent(['dev-slave']) {
-                     sh 'ssh -o StrictHostKeyChecking=no deploy@172.31.17.213 "docker stop my-app && docker rm --force my-app"'
+                     //sh 'ssh -o StrictHostKeyChecking=no deploy@172.31.17.213 "docker stop my-app && docker rm --force my-app"'
                      sh 'ssh -o StrictHostKeyChecking=no deploy@172.31.17.213 "docker run -p 8080:8090 -d --name my-app nalapatt123/hariapp:${DOCKER_TAG}"'
                 }
-                  }
+            }
         }
+        
     }
 }
+
+        
+        in the Post build actions add
+        
+        
+        stage('Remove Unused docker image') {
+            steps{
+                  sh "docker rmi nalapatt123/hariapp:${DOCKER_TAG}"
+                 }
+         }
+        stage('docker stop container and remove container') {
+             steps{
+                   sh 'docker ps -f name=my-app -q | xargs --no-run-if-empty docker container stop'
+                   sh 'docker container ls -a -fname=my-app -q | xargs -r docker container rm'
+                  }
+        }
+
