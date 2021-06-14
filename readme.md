@@ -148,12 +148,13 @@ add hosts
 172.31.19.177 ansible_pass=ansible123 ansible_user=worker
 
 # git clone the ansible playbook directory
-sudo yum install git 
+sudo yum install git
+su - ansadmin
 git init
 git clone https://github.com/nalapatt/ansible-playbook-k8s-setup.git
 
 
-cd ansible-k8s-setup
+cd ansible-playbook-k8s-setup
 vi hosts
 - change the hosts
 - [master]
@@ -226,35 +227,39 @@ should show all the nodes
 
 # Second Step Configure the master and node for the jenkins pipeline
 # now install jdk and jenkins
+# install docker
+- sudo yum update
+- 
 # jdk
-sudo yum update
-su -c "yum install java-1.8.0-openjdk"
+- sudo yum update
+- su -c "yum install java-1.8.0-openjdk"
 # jenkins
-sudo wget -O /etc/yum.repos.d/jenkins.repo \
+- sudo wget -O /etc/yum.repos.d/jenkins.repo \
     https://pkg.jenkins.io/redhat/jenkins.repo
-sudo rpm --import https://pkg.jenkins.io/redhat/jenkins.io.key
-sudo yum upgrade
-sudo yum install chkconfig java-devel
-sudo yum install jenkins
+ 
+- sudo rpm --import https://pkg.jenkins.io/redhat/jenkins.io.key
+- sudo yum upgrade
+- sudo yum install chkconfig java-devel
+- sudo yum install jenkins
 
 # give user docker permissions
-sudo usermod -a -G docker jenkins
-sudo service jenkins restart
-sudo chkconfig docker on
-sudo service docker start
+- sudo usermod -a -G docker jenkins
+- sudo service jenkins restart
+- sudo chkconfig docker on
+- sudo service docker start
 
 # login to the jenkins UI
-jenkins UIipaddressofjenkins:8080 in browser (example:ec2-52-207-250-4.compute-1.amazonaws.com:8080)
+- jenkins UIipaddressofjenkins:8080 in browser (example:ec2-52-207-250-4.compute-1.amazonaws.com:8080)
 go to jenkins terminal
-sudo cat /var/lib/jenkins/secrets/initialAdminPassword
-enter
-the password that you see below copy and paste in browser
-continue
-update suggested plugins
-update password
-url suggestions default
-save and finish
-start using jenkins
+- sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+- enter
+- the password that you see below copy and paste in browser
+- continue
+- update suggested plugins
+- update password
+- url suggestions default
+- save and finish
+- start using jenkins
 
 # manage plugins
 make sure these are installed
